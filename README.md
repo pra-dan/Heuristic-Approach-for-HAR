@@ -48,6 +48,7 @@ The initial steps will be as follows :
 -I moved the image to be processed in the same dir. where run.py was saved in the PoseEstimation folder. and then run the command : 
 python run.py --model=mobilenet_thin --resize=432x368 --image=p1.jpg
 (Although the histogram was not visible, due to some backend issue of matplotlib library ... can be solved here "https://www.pyimagesearch.com/2015/08/24/resolved-matplotlib-figures-not-showing-up-or-displaying/") : FOR LINUX USERS
+
 "https://stackoverflow.com/a/56422557/9625777" FOR WINDOWS USERS
 
 -To analyse the real time webcam, :$ python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0
