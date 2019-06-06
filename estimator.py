@@ -1,9 +1,11 @@
 import logging
 import math
+
 #POPO EDIT
 import matplotlib
 from matplotlib import pyplot
 ###END
+
 import slidingwindow as sw
 
 import cv2
@@ -31,6 +33,15 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 logger.setLevel(logging.INFO)
 
+#POPO EDIT
+def distance(p1,p2):
+    # Calculating distance 
+    x1 = p1[0]
+    x2 = p2[0]
+    y1 = p1[1]
+    y2 = p2[1]
+    return math.sqrt(math.pow(x2 - x1, 2) +  math.pow(y2 - y1, 2) * 1.0)
+###END
 
 def _round(v):
     return int(round(v))
@@ -406,9 +417,8 @@ class TfPoseEstimator:
         fig1 = plt1.figure()
         xlist = []
         ylist = []
-        
-        
-        
+
+        cocoBind = []
         ###END
 
         for human in humans:
@@ -419,25 +429,171 @@ class TfPoseEstimator:
 
                 body_part = human.body_parts[i]
                 center = (int(body_part.x * image_w + 0.5), int(body_part.y * image_h + 0.5))
-                
+ ###################################################################################################               
                 #POPO EDIT
+                '''This should help to relate the part number with the part name
+                class CocoPart(Enum):
+                    Nose = 0
+                    Neck = 1
+                    RShoulder = 2
+                    RElbow = 3
+                    RWrist = 4
+                    LShoulder = 5
+                    LElbow = 6
+                    LWrist = 7
+                    RHip = 8
+                    RKnee = 9
+                    RAnkle = 10
+                    LHip = 11
+                    LKnee = 12
+                    LAnkle = 13
+                    REye = 14
+                    LEye = 15
+                    REar = 16
+                    LEar = 17
+                    Background = 18
+                '''
+ 
                 xlist.append(center[0])
                 ylist.append(center[1])
-                #ANNOTATE PLACED HERE BECAUSE IT IS AN ITERATIVE PROCESS AND CANNOT BE DONE AFTER THE COMPLETE 
-                #LIST HAS ACCUMULATED
-                plt1.annotate(s=(center[0],center[1]),xy=(center[0],center[1]))
+                #ANNOTATE PLACED HERE BECAUSE IT IS AN ITERATIVE PROCESS AND CANNOT BE DONE AFTER THE COMPLETE... 
+                #...LIST HAS ACCUMULATED
+                plt1.annotate(s=(center[0],center[1],CocoPart(i)),xy=(center[0],center[1]))
+                
+                cocoBind.append(CocoPart(i))
+                #print(CocoPart[1])
                 ###END
 
                 centers[i] = center
                 cv2.circle(npimg, center, 3, common.CocoColors[i], thickness=3, lineType=8, shift=0)
-
+#######################################################################################################################
             #POPO EDIT
-            print(xlist)
-            print(ylist)
+            ##ASSIGNING THE COORDINATES OF REQUIRED PARTS
+            dist_list = []
+               
+            '''
+            #if(cocoDict[CocoPart.Neck])
+                dNeck = distance(cocoDict[CocoPart.Neck], cocoDict[CocoPart.LWrist]))
+                dist_list.append('d_Neck', d_Neck)
+            print(dist_list)
+            '''
+            #USING SYNTAX OF : https://pythonprogramming.net/zip-intermediate-python-tutorial/
+            #part_list = ['r_wrist','l_wrist','l_ankle','r_ankle','l_elbow','r_elbow','l_hip','r_hip','l_shoulder','r_shoulder']
+           
+            '''
+            print('-------------------------------')
+            for name, member in CocoPart.__members__.items():
+                    print(name, member.value)
+            #print(CocoPart['REar'])
+            '''
+            print('HERE IS THE AVAILABLE PARTS LIST...')
+            #print(cocoBind)
+            print('BINDING THESE PARTS WITH THE COORDINATES AVAILABLE')
+            global cocoDict
+            cocoDict = {}
+            cocoDict = dict(zip(cocoBind,zip(xlist,ylist)))
+            print(cocoDict)
+            #print(distance(cocoDict[]))
+            #print(Nose.value)
+            #CREATING A DICTIONARY DIST OF EACH PART FROM NOSE : NAME OF THE PART 
+            #dict_dist = dict(zip(part_list,dist_list))          
+
+            global dist_dict 
+            dist_dict = {}   
+            #DECLARED IT GLOBAL DUE TO ISSUE DISCUSSED HERE (https://stackoverflow.com/questions/42861989/python-how-do-you-initialize-a-global-variable-only-when-its-not-defined)
+            
+            ##print('CocoPart.Neck' in cocoDict)
+
+            #PROBABLY UNABLE TO DETECT THE MISSING KEY. HENCE USING THE METHOD DESCRIBED HERE:
+            #https://realpython.com/python-keyerror/
+
+            try:
+                d_RShoulder = distance(cocoDict[CocoPart.Nose], cocoDict[CocoPart.RShoulder])
+                dist_dict.update({'RShoulder': d_RShoulder})
+            except KeyError:
+                print('Not There') 
+
+            try:
+                d_RElbow = distance(cocoDict[CocoPart.Nose], cocoDict[CocoPart.RElbow])
+                dist_dict.update({'RElbow': d_RElbow})
+            except KeyError:
+                print('Not There') 
+
+            try:
+                d_RWrist = distance(cocoDict[CocoPart.Nose], cocoDict[CocoPart.RWrist])
+                dist_dict.update({'RWrist': d_RWrist})
+            except KeyError:
+                print('Not There')
+
+            try:
+                d_LShoulder = distance(cocoDict[CocoPart.Nose], cocoDict[CocoPart.LShoulder])
+                dist_dict.update({'LShoulder': d_LShoulder})
+            except KeyError:
+                print('Not There')  
+
+            try:
+                d_LElbow = distance(cocoDict[CocoPart.Nose], cocoDict[CocoPart.LElbow])
+                dist_dict.update({'LElbow': d_LElbow})
+            except KeyError:
+                print('Not There')  
+
+            try:
+                d_LWrist = distance(cocoDict[CocoPart.Nose], cocoDict[CocoPart.LWrist])
+                dist_dict.update({'LWrist': d_LWrist})
+            except KeyError:
+                print('Not There') 
+
+            try:
+                d_LHip = distance(cocoDict[CocoPart.Nose], cocoDict[CocoPart.LHip])
+                dist_dict.update({'LHip': d_LHip})
+            except KeyError:
+                print('Not There')
+
+            try:
+                d_RHip = distance(cocoDict[CocoPart.Nose], cocoDict[CocoPart.RHip])
+                dist_dict.update({'RHip': d_RHip})
+            except KeyError:
+                print('Not There')
+            
+            try:
+                d_LKnee = distance(cocoDict[CocoPart.Nose], cocoDict[CocoPart.LKnee])
+                dist_dict.update({'LKnee': d_LKnee})
+            except KeyError:
+                print('Not There')
+
+            try:
+                d_RKnee = distance(cocoDict[CocoPart.Nose], cocoDict[CocoPart.RKnee])
+                dist_dict.update({'RKnee': d_RKnee})
+            except KeyError:
+                print('Not There')
+
+            try:
+                d_LAnkle = distance(cocoDict[CocoPart.Nose], cocoDict[CocoPart.LAnkle])
+                dist_dict.update({'LAnkle': d_LAnkle})
+            except KeyError:
+                print('Not There')
+
+            try:
+                d_RAnkle = distance(cocoDict[CocoPart.Nose], cocoDict[CocoPart.RAnkle])
+                dist_dict.update({'RAnkle': d_RAnkle})
+            except KeyError:
+                print('Not There')
+               
+            print(dist_dict)
+            
+            #GETTING KEY WITH MAX VALUE AND MIN VALUE
+            #PRINTING THE FARTHEST AND NEAREST POINT WITH Nose AS THE ORIGIN (AKA, REFERENCE POINT)
+            from operator import itemgetter
+            print('FARTHEST : ',max(dist_dict, key=dist_dict.get))
+
+            print('CLOSEST : ',min(dist_dict, key=dist_dict.get))
+
             plt1.plot(xlist,ylist,'ro')
+            #INVERTING THE Y AXIS i.e, TOP TO BOTTOM : 0 TO MAX
             plt1.gca().invert_yaxis()
+            #CHECK WHETHER THE AXIS IS INVERTED OR NOT
             print(plt1.gca().yaxis_inverted())
-            plt1.show()
+            #plt1.show()
             ###END
 
             # draw line
