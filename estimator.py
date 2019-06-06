@@ -1,9 +1,11 @@
 import logging
 import math
+
 #POPO EDIT
 import matplotlib
 from matplotlib import pyplot
 ###END
+
 import slidingwindow as sw
 
 import cv2
@@ -31,6 +33,15 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 logger.setLevel(logging.INFO)
 
+#POPO EDIT
+def distance(p1,p2):
+    # Calculating distance 
+    x1 = p1[0]
+    x2 = p2[0]
+    y1 = p1[1]
+    y2 = p2[1]
+    return math.sqrt(math.pow(x2 - x1, 2) +  math.pow(y2 - y1, 2) * 1.0)
+###END
 
 def _round(v):
     return int(round(v))
@@ -406,9 +417,6 @@ class TfPoseEstimator:
         fig1 = plt1.figure()
         xlist = []
         ylist = []
-        
-        
-        
         ###END
 
         for human in humans:
@@ -419,19 +427,56 @@ class TfPoseEstimator:
 
                 body_part = human.body_parts[i]
                 center = (int(body_part.x * image_w + 0.5), int(body_part.y * image_h + 0.5))
-                
+ ###################################################################################################               
                 #POPO EDIT
+                '''This should help to relate the part number with the part name
+                class CocoPart(Enum):
+                    Nose = 0
+                    Neck = 1
+                    RShoulder = 2
+                    RElbow = 3
+                    RWrist = 4
+                    LShoulder = 5
+                    LElbow = 6
+                    LWrist = 7
+                    RHip = 8
+                    RKnee = 9
+                    RAnkle = 10
+                    LHip = 11
+                    LKnee = 12
+                    LAnkle = 13
+                    REye = 14
+                    LEye = 15
+                    REar = 16
+                    LEar = 17
+                    Background = 18
+                '''
+                print('TRYING TO PRINT NAME OF BODY PART...')
+ 
+                #print(body_part)
                 xlist.append(center[0])
                 ylist.append(center[1])
-                #ANNOTATE PLACED HERE BECAUSE IT IS AN ITERATIVE PROCESS AND CANNOT BE DONE AFTER THE COMPLETE 
-                #LIST HAS ACCUMULATED
-                plt1.annotate(s=(center[0],center[1]),xy=(center[0],center[1]))
+                #ANNOTATE PLACED HERE BECAUSE IT IS AN ITERATIVE PROCESS AND CANNOT BE DONE AFTER THE COMPLETE... 
+                #...LIST HAS ACCUMULATED
+                plt1.annotate(s=(center[0],center[1],CocoPart(i)),xy=(center[0],center[1]))
                 ###END
 
                 centers[i] = center
                 cv2.circle(npimg, center, 3, common.CocoColors[i], thickness=3, lineType=8, shift=0)
-
+#######################################################################################################################
             #POPO EDIT
+            ##ASSIGNING THE COORDINATES OF REQUIRED PARTS
+            nose =    (xlist[0],ylist[0])  
+            r_wrist = (xlist[4],ylist[4]) 
+            l_wrist = (xlist[7],ylist[7])
+            l_ankle = (xlist[13],ylist[13])
+            r_ankle = (xlist[10],ylist[10])
+
+            if(distance(nose,))
+
+            #print(dir(CocoPart))
+            #print(CocoPart(0))
+
             print(xlist)
             print(ylist)
             plt1.plot(xlist,ylist,'ro')
