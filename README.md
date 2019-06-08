@@ -53,6 +53,8 @@ python run.py --model=mobilenet_thin --resize=432x368 --image=p1.jpg
 "https://stackoverflow.com/a/56422557/9625777" FOR WINDOWS USERS
 
 -To analyse the real time webcam, :$ python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0
+-The latest version boasts of running Pose Detection and Object Detection simultaneously. To do so, run :
+python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0 --prototxt MobileNetSSD_deploy.prototxt.txt --mmodel MobileNetSSD_deploy.caffemodel
 
 
 
