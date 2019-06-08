@@ -32,6 +32,14 @@ formatter = logging.Formatter('[%(asctime)s] [%(name)s] [%(levelname)s] %(messag
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
+#POPO EDIT
+#MEASURING TIME TAKEN
+import time
+start_time = time.clock()
+#main()
+print (time.clock() - start_time, "seconds")
+##END
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='tf-pose-estimation run')
@@ -57,11 +65,15 @@ if __name__ == '__main__':
     if image is None:
         logger.error('Image can not be read, path=%s' % args.image)
         sys.exit(-1)
-
+    
     t = time.time()
     humans = e.inference(image, resize_to_default=(w > 0 and h > 0), upsample_size=args.resize_out_ratio)
+    #POPO EDIT
+    #print(humans)
+    ###END
+    
     elapsed = time.time() - t
-
+    
     logger.info('inference image: %s in %.4f seconds.' % (args.image, elapsed))
 
     image = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
@@ -69,14 +81,12 @@ if __name__ == '__main__':
     try:
         #POPO EDIT
         #matplotlib.use('WXAgg',warn=False, force=True)
-        matplotlib.use('TKAgg',warn=False, force=True)
+        #NEEDS TO BE REMOVED
+        ##matplotlib.use('TKAgg',warn=False, force=True)
         
         print ("Switched to:",matplotlib.get_backend())
         import matplotlib.pyplot as plt
-        #POPO EDIT
         
-        #plt.ion()
-
         fig = plt.figure()
         a = fig.add_subplot(2, 2, 1)
         a.set_title('Result')
@@ -112,3 +122,4 @@ if __name__ == '__main__':
         logger.warning('matplitlib error, %s' % e)
         cv2.imshow('result', image)
         cv2.waitKey()
+

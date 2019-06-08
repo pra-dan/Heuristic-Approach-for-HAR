@@ -1,61 +1,138 @@
-## Multipose-Detection-
-The initial steps will be as follows :
-<Assuming that the python 3.7 is already installed, OpenCV is functional and libs like numpy are installed using pip3>
+# tf-pose-estimation
 
--Install python3, pip3 and virtualenv >
+'Openpose', human pose estimation algorithm, have been implemented using Tensorflow. It also provides several variants that have some changes to the network structure for **real-time processing on the CPU or low-power embedded devices.**
 
--Install git
- (pip install gitpython)
- 
--Install TensorFlow from https://www.tensorflow.org/install/pip
- (...While Creating a virtual environment, the path I used was: $virtualenv --system-site-packages C:\Python\Python37\summer\VirtualEnvDir\Venv1.venv 
-...In the next step, <for activating the environment>, append the : "\Scripts\activate" to the path shown in the terminal)
- 
--protobuf, python3-tk will already be installed if using python3.7
- (use >>> import tkinter)
- 
--install slidingwindow using pip
+**You can even run this on your macbook with a descent FPS!**
 
--install git for python 
- (follow https://hackernoon.com/install-git-on-windows-9acf2a1944f0
-  but only till the "Commonly Asked Questions". Add the path "C:\Program Files\Git\usr\bin" )
+Original Repo(Caffe) : https://github.com/CMU-Perceptual-Computing-Lab/openpose
 
--Clone library from (https://github.com/ildoonet/tf-pose-estimation)to python directory (C:\Python\Python37\summer)
+| CMU's Original Model</br> on Macbook Pro 15" | Mobilenet-thin </br>on Macbook Pro 15" | Mobilenet-thin</br>on Jetson TX2 |
+|:---------|:--------------------|:----------------|
+| ![cmu-model](/etcs/openpose_macbook_cmu.gif)     | ![mb-model-macbook](/etcs/openpose_macbook_mobilenet3.gif) | ![mb-model-tx2](/etcs/openpose_tx2_mobilenet3.gif) |
+| **~0.6 FPS** | **~4.2 FPS** @ 368x368 | **~10 FPS** @ 368x368 |
+| 2.8GHz Quad-core i7 | 2.8GHz Quad-core i7 | Jetson TX2 Embedded Board | 
 
--Change dir to the cloned downloaded folder
- ($ cd tf-pose-estimation)
+Implemented features are listed here : [features](./etcs/feature.md)
 
-- install git
- (pip install python-git)
+## Important Updates
 
--change directry to the cloned folder
- (C:\Python\Python37\summer\PoseEstimation)
+- 2019.3.12 Add new models using mobilenet-v2 architecture. See : [experiments.md](./etcs/experiments.md)
+- 2018.5.21 Post-processing part is implemented in c++. It is required compiling the part. See: https://github.com/ildoonet/tf-pose-estimation/tree/master/src/pafprocess
+- 2018.2.7 Arguments in run.py script changed. Support dynamic input size.
 
--Open the "Requirements.txt" from the "tf-pose-estimation" folder and delete pycocotools because this installation is not meant for windows. Instead, Install pycocotools using: pip3 install "git+https://github.com/philferriere/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI"
+## Install
 
--install Cython using pip install Cython
+### Dependencies
 
--install requirements 
- ($ pip3 install -r requirements.txt)
+You need dependencies below.
 
--Download "swig" inside "summer" from "https://sourceforge.net/projects/swig/files/swigwin/swigwin-4.0.0/swigwin-4.0.0.zip/download?use_mirror=nchc" and follow instructions on "https://simpletutorials.com/c/2135/Installing+SWIG+on+Windows".
+- python3
+- tensorflow 1.4.1+
+- opencv3, protobuf, python3-tk
+- slidingwindow
+  - https://github.com/adamrehn/slidingwindow
+  - I copied from the above git repo to modify few things.
 
--change dir. to pafprocess
- (cd C:\Python\Python37\summer\PoseEstimation\tf_pose) and execute "swig -python -c++ pafprocess.i && python setup.py build_ext --inplace"
+### Install
 
--install wget using : "https://www.addictivetips.com/windows-tips/install-and-use-wget-in-windows-10/". But while in the environment variable step, don't follow his step and add path in "SYSTEM VARIABLE AND NOT USER VARIABLE !". For changes to appear, re-open cmd.
+Clone the repo and install 3rd-party libraries.
 
--I moved the image to be processed in the same dir. where run.py was saved in the PoseEstimation folder. and then run the command : 
-python run.py --model=mobilenet_thin --resize=432x368 --image=p1.jpg
-(Although the histogram was not visible, due to some backend issue of matplotlib library ... can be solved here "https://www.pyimagesearch.com/2015/08/24/resolved-matplotlib-figures-not-showing-up-or-displaying/") : FOR LINUX USERS
+```bash
+$ git clone https://www.github.com/ildoonet/tf-pose-estimation
+$ cd tf-pose-estimation
+$ pip3 install -r requirements.txt
+```
 
-"https://stackoverflow.com/a/56422557/9625777" FOR WINDOWS USERS
+Build c++ library for post processing. See : https://github.com/ildoonet/tf-pose-estimation/tree/master/tf_pose/pafprocess
+```
+$ cd tf_pose/pafprocess
+$ swig -python -c++ pafprocess.i && python3 setup.py build_ext --inplace
+```
 
--To analyse the real time webcam, :$ python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0
+### Package Install
 
+Alternatively, you can install this repo as a shared package using pip.
 
+```bash
+$ git clone https://www.github.com/ildoonet/tf-pose-estimation
+$ cd tf-openpose
+$ python setup.py install  # Or, `pip install -e .`
+```
 
+## Models & Performances
 
-How I referenced my virtual environment, (which I hardly used !)
-//$$virtualenv --system-site-packages C:\Python\Python37\summer\VirtualEnvDir\Venv1.venv
-- 
+See [experiments.md](./etc/experiments.md)
+
+### Download Tensorflow Graph File(pb file)
+
+Before running demo, you should download graph files. You can deploy this graph on your mobile or other platforms.
+
+- cmu (trained in 656x368)
+- mobilenet_thin (trained in 432x368)
+- mobilenet_v2_large (trained in 432x368)
+- mobilenet_v2_small (trained in 432x368)
+
+CMU's model graphs are too large for git, so I uploaded them on an external cloud. You should download them if you want to use cmu's original model. Download scripts are provided in the model folder.
+
+```
+$ cd models/graph/cmu
+$ bash download.sh
+```
+
+## Demo
+
+### Test Inference
+
+You can test the inference feature with a single image.
+
+```
+$ python run.py --model=mobilenet_thin --resize=432x368 --image=./images/p1.jpg
+```
+
+The image flag MUST be relative to the src folder with no "~", i.e:
+```
+--image ../../Desktop
+```
+
+Then you will see the screen as below with pafmap, heatmap, result and etc.
+
+![inferent_result](./etcs/inference_result2.png)
+
+### Realtime Webcam
+
+```
+$ python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0
+```
+
+Then you will see the realtime webcam screen with estimated poses as below. This [Realtime Result](./etcs/openpose_macbook13_mobilenet2.gif) was recored on macbook pro 13" with 3.1Ghz Dual-Core CPU.
+
+## Python Usage
+
+This pose estimator provides simple python classes that you can use in your applications.
+
+See [run.py](run.py) or [run_webcam.py](run_webcam.py) as references.
+
+```python
+e = TfPoseEstimator(get_graph_path(args.model), target_size=(w, h))
+humans = e.inference(image)
+image = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
+```
+
+If you installed it as a package,
+
+```python
+import tf_pose
+coco_style = tf_pose.infer(image_path)
+```
+
+## ROS Support
+
+See : [etcs/ros.md](./etcs/ros.md)
+
+## Training
+
+See : [etcs/training.md](./etcs/training.md)
+
+## References
+
+See : [etcs/reference.md](./etcs/reference.md)
