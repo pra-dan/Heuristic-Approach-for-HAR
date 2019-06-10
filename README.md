@@ -27,15 +27,15 @@ The initial steps will be as follows :
 -Change dir to the cloned downloaded folder
  ($ cd tf-pose-estimation)
 
-- install git
- (pip install python-git)
-
 -change directry to the cloned folder
  (C:\Python\Python37\summer\PoseEstimation)
 
--Open the "Requirements.txt" from the "tf-pose-estimation" folder and delete pycocotools because this installation is not meant for windows. Instead, Install pycocotools using: pip3 install "git+https://github.com/philferriere/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI"
+--install Cython using pip install Cython
 
--install Cython using pip install Cython
+-Open the "Requirements.txt" from the "tf-pose-estimation" folder and delete pycocotools because this installation is not meant for windows. Instead, Install pycocotools using:
+pip3 install "git+https://github.com/philferriere/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI"
+
+
 
 -install requirements 
  ($ pip3 install -r requirements.txt)
