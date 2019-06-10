@@ -43,7 +43,8 @@ pip3 install "git+https://github.com/philferriere/cocoapi.git#egg=pycocotools&su
 -install requirements 
  ($ pip3 install -r requirements.txt)
 
--Download "swig" inside "summer" from "https://sourceforge.net/projects/swig/files/swigwin/swigwin-4.0.0/swigwin-4.0.0.zip/download?use_mirror=nchc" and follow instructions on "https://simpletutorials.com/c/2135/Installing+SWIG+on+Windows".
+-Download "swig" inside C Drive (or your Home dir...look at the Environment Variable.png file in the repo above) from "https://sourceforge.net/projects/swig/files/swigwin/swigwin-4.0.0/swigwin-4.0.0.zip/download?use_mirror=nchc" and follow instructions on "https://simpletutorials.com/c/2135/Installing+SWIG+on+Windows".
+(BEWARE! Swig application file will be executed without any window popping up. i.e, as soon as you download swig and click on application file, a screen will flash and disappear. It means it has done its work.) Rest of the steps should be followed from the link above.
 
 -change dir. to pafprocess
  (cd C:\Python\Python37\summer\PoseEstimation\tf_pose) and execute "swig -python -c++ pafprocess.i && python setup.py build_ext --inplace"
