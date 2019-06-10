@@ -32,7 +32,10 @@ The initial steps will be as follows :
 
 --install Cython using pip install Cython
 
+-Install Visual Studio (for C++ 14) 
+
 -Open the "Requirements.txt" from the "tf-pose-estimation" folder and delete pycocotools because this installation is not meant for windows. Instead, Install pycocotools using:
+
 pip3 install "git+https://github.com/philferriere/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI"
 
 
