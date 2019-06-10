@@ -11,6 +11,7 @@ The initial steps will be as follows :
 -Install TensorFlow from https://www.tensorflow.org/install/pip
  (...While Creating a virtual environment, the path I used was: $virtualenv --system-site-packages C:\Python\Python37\summer\VirtualEnvDir\Venv1.venv 
 ...In the next step, <for activating the environment>, append the : "\Scripts\activate" to the path shown in the terminal)
+ For those still facing difficulty in installing TensorFlow, refer to this link : https://stackoverflow.com/questions/38896424/tensorflow-not-found-using-pip
  
 -protobuf, python3-tk will already be installed if using python3.7
  (use >>> import tkinter)
