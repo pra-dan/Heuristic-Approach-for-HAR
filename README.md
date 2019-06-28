@@ -1,5 +1,7 @@
 
-## Multipose-Detection-
+## Multipose-Detection (with Walk Estimation)
+-- The steps below the partition, signify the initital installation steps involved.
+________________________________________________________________________________________________________________________________________
 The initial steps will be as follows :
 <Assuming that the python 3.7 (64 bit is must !) is already installed, OpenCV is functional and libs like numpy are installed using pip3>
 
