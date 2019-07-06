@@ -5,15 +5,14 @@
 - CLASSIFICATION RESULTS ARE FIRST STORED IN A DICTIONARY : Result_dict (MODULE Classification_class.py)        
 - ADDED FEATURE OF WRITING THE CLASSIFICATIONS (STORED IN Result_dict IN PREVIOUS STEP) INTO THE FINAL CSV FILE "Classification.csv" MODULE : Classification_class.py        
 
-
 ### THE FOLLOWING DEPENDENCIES MUST BE INSTALLED FOR RUNNING THIS BRANCH        
 
--> *pyttsx3* : pip install pyttsx3        
+*  *pyttsx3* : pip install pyttsx3        
    As this library requires *PyAudio*, install it this way:        
-         --- for Python 3.6 or below: pip install PyAudio                
-         --- fr Python 3.7 or above (or if you face any difficulty despite the verison), refer to this link *https://stackoverflow.com/a/54998167/9625777*. It involves downloading wheel for *PyAudio* and installing it manually.        
--> *speech_recognition* : pip install speech_recognition         
--> *pocketsphinx* : pip install pocketsphinx        
+   * for Python 3.6 or below: pip install PyAudio                
+   * for Python 3.7 or above (or if you face any difficulty despite the verison), refer to this link *https://stackoverflow.com/a/54998167/9625777*. It involves downloading wheel for *PyAudio* and installing it manually.                
+* *speech_recognition* : pip install speech_recognition         
+* *pocketsphinx* : pip install pocketsphinx        
 
 - The steps below the partition, signify the initital installation steps involved. These are the same steps needed for using any of the branch of this repository. It mainly sets up your main module, its dependencies and the frameworks required.
 ________________________________________________________________________________________________________________________________________
