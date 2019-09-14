@@ -1,5 +1,5 @@
 
-## Multipose-Detection-
+## Multipose-Detection
 The initial steps will be as follows :
 <Assuming that the python 3.7 (64 bit is must !) is already installed, OpenCV is functional and libs like numpy are installed using pip3>
 
@@ -61,9 +61,3 @@ python run.py --model=mobilenet_thin --resize=432x368 --image=p1.jpg
 -The latest version boasts of running Pose Detection and Object Detection simultaneously. To do so, run :
 python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0 --prototxt MobileNetSSD_deploy.prototxt.txt --mmodel MobileNetSSD_deploy.caffemodel
 
-
-
-
-How I referenced my virtual environment, (which I hardly used !)
-//$$virtualenv --system-site-packages C:\Python\Python37\summer\VirtualEnvDir\Venv1.venv
-- 
